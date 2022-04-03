@@ -3,6 +3,12 @@
 
 #include "queue.h"
 
+int is_empty(queue_t *queue){
+    if(queue->head == NULL)
+        return 1;
+    return 0;
+}
+
 void enqueue(queue_t *queue, int value) {
     if(queue->head == NULL){
         node_t *nod = initNode(value);
@@ -16,7 +22,6 @@ void enqueue(queue_t *queue, int value) {
     queue->head->prev = nod;
     queue->head = nod;
     queue->len++;
-    printf("LEN = %d\n", queue->len);
     return;
 }
 
@@ -39,7 +44,6 @@ int dequeue(queue_t *queue, int *status) {
     queue->tail = queue->tail->prev;
     queue->tail->next = NULL;
     queue->len --;
-    printf("LEN = %d\n", queue->len);
     free(aux);
     *status = STATUS_OK;
     return val;

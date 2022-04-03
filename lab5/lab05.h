@@ -72,4 +72,8 @@ int checkBalancedBrackets(char *exp);
  */
 void radixSort(int *v, int n);
 
+
+//functii ajutatoare
+int getMax(int *v, int n);
+int countDigits(int n);
 #endif //SD_LABS_LAB05_H

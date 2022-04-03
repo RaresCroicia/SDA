@@ -50,5 +50,5 @@ int dequeue(queue_t *queue, int *status);
  * @return valoarea ultimului nod
  */
 int peek(queue_t *queue, int *status);
-
+int is_empty(queue_t *queue);
 #endif //SD_LABS_QUEUE_H
