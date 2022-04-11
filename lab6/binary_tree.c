@@ -95,9 +95,48 @@ int removeNode(BTNode **root, BTNode *node) {
         free(node);
         return 0;
     }
-    
 
-    return 0;
+    if(getNodeDegrees(node) == 1){
+        if(node == node->parent->left){
+            if(node->left != NULL){
+                node->left->parent = node->parent;
+                node->parent->left = node->left;
+                free(node);
+            }
+            else if(node->right != NULL){
+                node->right->parent = node->parent;
+                node->parent->left = node->right;
+                free(node);
+            }
+        }
+        else if(node == node->parent->right){
+            if(node->left != NULL){
+                node->left->parent = node->parent;
+                node->parent->right = node->left;
+                free(node);
+            }
+            else if(node->right != NULL){
+                node->right->parent = node->parent;
+                node->parent->right = node->right;
+                free(node);
+            }
+        }
+        return 0;
+    }
+
+    else{
+        BTNode* aux = node;
+        aux = node->right;
+        while(aux->left != NULL)
+            aux = aux->left;
+        node->data = aux->data;
+        aux->parent->left = NULL;
+        aux->parent = NULL;
+        free(aux);
+        return 0;
+    }
+
+    return -1;
 }
 
 void printInOrder(BTNode *root) {

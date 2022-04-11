@@ -23,7 +23,7 @@ int main() {
 
     prettyPrintTree(root);
 
-    BTNode *found = searchNode(root, 17);
+    BTNode *found = searchNode(root, 10);
     if(found == NULL)
         printf("Nu a fost gasit!\n");
     else
@@ -32,9 +32,14 @@ int main() {
     printInOrder(root);
     printf("\n");
 
-    printf("%ld\n", getHeight(root));
+    printf("%d\n", getHeight(root));
 
     printf("%d\n", isBSTreeBalanced(root));
+
+    int status = removeNode(&root, found);
+    
+    printf("%s\n", status == 0 ? "S-a distrus ok!\n" : "Nu s-a distrus ok!\n");
+    prettyPrintTree(root);
 
     // Eliberez memoria ocupata de arbore
     destroyTree(&root);
