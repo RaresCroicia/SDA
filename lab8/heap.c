@@ -112,17 +112,24 @@ heap_err_t shiftDown(heapArray_t *heap, size_t idx, int (*compare)(const void *,
     int ok = 1;
     while(ok){
         size_t idx_swap;
-        if(2*idx + 1 >= heap->size || 2*idx + 2 >= heap->size)
+        if(LEFT_CHILD(idx) >= heap->size)
             break;
-        if(compare(heap->data[2*idx+1], heap->data[2*idx+2]) > 0)
-            idx_swap = 2*idx+1;
+        if(LEFT_CHILD(idx) == heap->size - 1 && compare(heap->data[idx], heap->data[LEFT_CHILD(idx)]) < 0){
+            swap(heap, idx, LEFT_CHILD(idx));
+            break;
+        }
+            
+        if(compare(heap->data[LEFT_CHILD(idx)], heap->data[RIGHT_CHILD(idx)]) > 0)
+            idx_swap = LEFT_CHILD(idx);
         else
-            idx_swap = 2*idx+2;
+            idx_swap = RIGHT_CHILD(idx);
         
         if(compare(heap->data[idx], heap->data[idx_swap]) > 0)
             ok = 0;
-        else
+        else{
             swap(heap, idx, idx_swap);
+            idx = idx_swap;
+        }
     }
     return STATUS_OK;
 }

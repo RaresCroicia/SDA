@@ -17,9 +17,9 @@ int main() {
     }
 
     /*
-     * Afisare elemente din movila.
-     * Primul element trebuie sa fie cel mai mic din vector
-     */
+    * Afisare elemente din movila.
+    * Primul element trebuie sa fie cel mai mic din vector
+    */
     for (int i = 0; i < heap->size; i++) {
         printf("%d ", *(int *) heap->data[i]);
     }
@@ -47,51 +47,55 @@ int main() {
 
 
     /* Adaugare elemente in coada de prioritati */
-   char value[] = {'a', 'd', 'c', 'h'};
-   int priorities[] = {2, 0, 1, 3};
+    char value[] = {'a', 'd', 'c', 'h'};
+    int priorities[] = {2, 3, 1, 0};
 
-   for (int i = 0; i < 4; i++) {
-       priorityEnqueue(&heap, &value[i], sizeof(char), priorities[i]);
-   }
+    for (int i = 0; i < 4; i++) {
+        priorityEnqueue(&heap, &value[i], sizeof(char), priorities[i]);
+    }
 
-   /* Afisare elemente din coada de prioritati */
-   for (int i = 0; i < heap->size; i++) {
-       printf("%c ", *(char *) ((pQueueItem_t *) heap->data[i])->data);
-   }
-   printf("\n");
+    /* Afisare elemente din coada de prioritati */
+    for (int i = 0; i < heap->size; i++) {
+        printf("%c ", *(char *) ((pQueueItem_t *) heap->data[i])->data);
+    }
+    printf("\n");
 
-   /* Extragere elemente din coada de prioritati */
-   n = heap->size;
-   pQueueItem_t pRet;
+    /* Extragere elemente din coada de prioritati */
+    n = heap->size;
+    pQueueItem_t pRet;
 
-   for (int i = 0; i < n; i++) {
-       priorityDequeue(&heap, (void *) &pRet);
+    for (int i = 0; i < n; i++) {
+            priorityDequeue(&heap, (void *) &pRet);
+            printf("Removed %c with priority %d\n", *(char *) pRet.data, pRet.priority);
+    }
 
-       printf("Removed %c with priority %d\n", *(char *) pRet.data, pRet.priority);
-   }
+    /* Re-adaugare elemente */
+        for (int i = 0; i < 4; i++) {
+        priorityEnqueue(&heap, &value[i], sizeof(char), priorities[i]);
+    }
+    
+    /* Afisare elemente din coada de prioritati */
+    for (int i = 0; i < heap->size; i++) {
+        printf("%c ", *(char *) ((pQueueItem_t *) heap->data[i])->data);
+    }
 
-   /* Re-adaugare elemente */
-   for (int i = 0; i < 4; i++) {
-       priorityEnqueue(&heap, &value[i], sizeof(char), priorities[i]);
-   }
+    extractNode(&heap, 2, &pRet);
+    printf("Removed %c\n", *(char*) pRet.data);
 
-//    extractNode(&heap, 2, &pRet);
-//    printf("Removed %c\n", (char) pRet.data);
-//
-//    /* Afisare elemente din coada de prioritati */
-//    for (int i = 0; i < heap->size; i++) {
-//        printf("%c ", *(char *) ((pQueueItem_t *) heap->data[i])->data);
-//    }
-//    printf("\n");
-//
-//    /* Schimbare prioritate */
-//    changeNodePriority(&heap, 0, 10);
-//
-//    /* Afisare elemente din coada de prioritati */
-//    for (int i = 0; i < heap->size; i++) {
-//        printf("%c ", *(char *) ((pQueueItem_t *) heap->data[i])->data);
-//    }
-//    printf("\n");
+    /* Afisare elemente din coada de prioritati */
+    for (int i = 0; i < heap->size; i++) {
+        printf("%c ", *(char *) ((pQueueItem_t *) heap->data[i])->data);
+    }
+    printf("\n");
+    
+    /* Schimbare prioritate */
+    changeNodePriority(&heap, 2, 10);
+
+    /* Afisare elemente din coada de prioritati */
+    for (int i = 0; i < heap->size; i++) {
+        printf("%c ", *(char *) ((pQueueItem_t *) heap->data[i])->data);
+    }
+    printf("\n");
 
     return 0;
 }

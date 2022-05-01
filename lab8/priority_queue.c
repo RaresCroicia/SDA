@@ -38,11 +38,11 @@ pQueueItem_t *initPQueueItem(void *value, size_t dataSize, int priority) {
 
 void priorityEnqueue(heapArray_t **pQueue, void *value, size_t dataSize, int priority) {
     pQueueItem_t *item = initPQueueItem(value, dataSize, priority);
-    insertHeapNode(pQueue, item, sizeof(pQueueItem_t), comparePriority);
+    insertHeapNode(pQueue, item, sizeof(pQueueItem_t), &comparePriority);
 }
 
 heap_err_t priorityDequeue(heapArray_t **pQueue, pQueueItem_t *ret) {
-    extractHeapRoot(pQueue, ret, comparePriority);
+    extractHeapRoot(pQueue, ret, &comparePriority);
     return STATUS_OK;
 }
 
@@ -55,13 +55,31 @@ heap_err_t priorityPeek(heapArray_t *pQueue, void *ret) {
     return STATUS_OK;
 }
 
-// heap_err_t extractNode(heapArray_t **pQueue, size_t idx, void *ret) {
-//     (*pQueue)->data[idx]
-//     return STATUS_OK;
-// }
+heap_err_t extractNode(heapArray_t **pQueue, size_t idx, void *ret) {
+    if (isHeapEmpty(*pQueue)) {
+        return ERR_EMPTY_HEAP;
+    }
+
+    if(idx >= (*pQueue)->size)
+        return ERR_INDEX_OUT_OF_BOUNDS;
+
+    ((pQueueItem_t*)(*pQueue)->data[idx])->priority = 999999;
+    shiftUp(*pQueue, idx, &comparePriority);
+    extractHeapRoot(pQueue, ret, &comparePriority);
+
+    return STATUS_OK;
+}
 
 heap_err_t changeNodePriority(heapArray_t **pQueue, size_t idx, int newPriority) {
-    // TODO
+    
+    int old_priority = ((pQueueItem_t*)(*pQueue)->data[idx])->priority;
+    ((pQueueItem_t*)(*pQueue)->data[idx])->priority = newPriority;
+    if(newPriority >= old_priority)
+        shiftUp(*pQueue, idx, &comparePriority);
+    else
+        shiftDown(*pQueue, idx, &comparePriority);
+    
+
     return STATUS_OK;
 }
 
