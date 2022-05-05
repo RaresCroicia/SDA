@@ -33,10 +33,11 @@ int main() {
     // Inserare de cuvinte
     trieInsertWord(&rootTrie, "ana");
     trieInsertWord(&rootTrie, "mar");
-    trieInsertWord(&rootTrie, "analogie");
     trieInsertWord(&rootTrie, "analogic");
     trieInsertWord(&rootTrie, "margine");
-
+    trieInsertWord(&rootTrie, "margini");
+    trieInsertWord(&rootTrie, "martiimatii");
+    trieInsertWord(&rootTrie, "analogim");
     //printNodeCharacters(rootTrie->children[CHAR_TO_IDX('a')]);
 
     // Verificare ca toate cuvintele au fost inserate
@@ -53,7 +54,7 @@ int main() {
     RESET_TEXT()
 
     // Stergere de cuvinte (existente sau nu)
-    trieDeleteWord(&rootTrie, "ana");
+    //trieDeleteWord(&rootTrie, "ana");
     trieDeleteWord(&rootTrie, "abfsa");
     trieDeleteWord(&rootTrie, "mar");
 
@@ -68,7 +69,7 @@ int main() {
     printf("Se afiseaza toate cuvintele care au un anumit prefix\n");
     RESET_TEXT()
     // Afisare toate cuvintele care au prefixul "ana"
-    triePrefixMatching(rootTrie, "ana");
+    triePrefixMatching(rootTrie, "mar");
 
     trieDestroy(&rootTrie);
 

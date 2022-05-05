@@ -8,6 +8,8 @@
 
 #include "trie.h"
 
+char buffer[256];
+int lungEfect = 0;
 
 trieNode_t *trieInitNode() {
     trieNode_t *newNode = malloc(sizeof(trieNode_t));
@@ -128,9 +130,37 @@ void trieDeleteWord(trieNode_t **root, char *word) {
     }
 }
 
+void print(){
+    for(int i = 0; i < lungEfect; i++)
+        printf("%c", buffer[i]);
+    printf("\n");
+}
+
+void showAll(trieNode_t *root){
+    if(root == NULL)
+        return;
+    if(root->isWordTerminal == TRUE)
+        printf("%s\n", buffer);
+    for(int i = 0; i < NUM_CHILDREN; i++){
+        buffer[lungEfect] = IDX_TO_CHAR(i);
+        lungEfect++;
+        showAll(root->children[i]);
+        lungEfect--;
+    }
+}
 
 void triePrefixMatching(trieNode_t *root, char *prefix) {
-    // TODO
+    if(root == NULL)
+        return;
+    while(*prefix != '\0'){
+        if(root->children[CHAR_TO_IDX(*prefix)] == NULL)
+            return;
+        root = root->children[CHAR_TO_IDX(*prefix)];
+        buffer[lungEfect] = *prefix;
+        lungEfect++;
+        prefix = prefix+1;
+    }
+    showAll(root);
 }
 
 
