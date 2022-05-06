@@ -155,6 +155,68 @@ void free_graph_list(graph_list *G){
     }
 }
 
+int get_grad_list(graph_list G, int i){
+    int ans = 0;
+    graph_node *this = G.adj_list[i];
+    while(this != NULL){
+        ++ans;
+        this = this->next;
+    }
+    return ans;
+}
+
+void set_zeros(int **v, int n){
+    for(int i = 0; i < n; i++)
+        (*v)[i] = 0;
+}
 
 
+void dfs(graph_mat G, int i, int **vis){
+    (*vis)[i] = 1;
+    printf("%d ", i);
+    for(int j = 0; j < G.nr_nodes; j++)
+        if(G.mat_adj[i][j] && !(*vis)[j])
+            dfs(G, j, vis);
+}
 
+void bfs(graph_mat G, int i, int **vis){
+    int *queue;
+    queue = calloc(10*G.nr_nodes, sizeof(int));
+    set_zeros(&queue, G.nr_nodes);
+    int p = 0, u = 0;
+    queue[p] = i;
+    u++;
+    (*vis)[i] = 1;
+    while(p < u){
+        printf("%d ", queue[p]);
+        for(int j = 0; j < G.nr_nodes; j++)
+            if(G.mat_adj[queue[p]][j] && (*vis)[j] == 0){
+                queue[u++] = j;
+                (*vis)[j] = 1;
+            }
+        p++;
+    }
+}
+
+int dfs_cycle(graph_mat G, int i, int **vis, int parent){
+    (*vis)[i] = 1;
+    for(int j = 0; j < G.nr_nodes; j++)
+        if(G.mat_adj[i][j]){
+        if((*vis)[j] == 0){
+            if(dfs_cycle(G, j, vis, i))
+                return TRUE;
+            }
+        else if(j != parent)
+            return TRUE;
+        }
+    return FALSE;
+}
+
+int has_cycle(graph_mat G, int **vis){
+    for(int i = 0; i < G.nr_nodes; i++)
+        if(!(*vis)[i])
+            if(dfs_cycle(G, i, vis, -1)){
+                return TRUE;
+            }
+    return FALSE;
+}

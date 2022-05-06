@@ -1,5 +1,7 @@
 #ifndef __graph__
 #define __graph__
+#define TRUE 1
+#define FALSE 0
 
 typedef struct graphMat{
     int nr_nodes;
@@ -28,7 +30,15 @@ void print_matr_adj(graph_mat G);
 void add_edge_list(graph_list *G, int i, int j);
 void delete_edge_list(graph_list *G, int i, int j);
 void print_list(graph_list G);
+int get_grad_list(graph_list G, int i);
 void free_graph_list(graph_list *G);
 
+void set_zeros(int **v, int n);
+
+void dfs(graph_mat G, int i, int **vis);
+void bfs(graph_mat G, int i, int **vis);
+
+int dfs_cycle(graph_mat G, int i, int **vis, int parent);
+int has_cycle(graph_mat G, int **vis);
 
 #endif
