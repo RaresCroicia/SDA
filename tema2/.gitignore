@@ -1,0 +1,7 @@
+*.o
+*/*.o
+*/*/*.o
+valgrind-result.out
+quadtree
+out/
+ref/
